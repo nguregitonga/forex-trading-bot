@@ -1,0 +1,115 @@
+# Forex Trading Bot Configuration
+# ================================
+
+trading:
+  mode: "paper"  # Options: paper (demo), live
+  trading_enabled: false
+  auto_execute: false
+  symbols:
+    - EURUSD
+    - GBPUSD
+    - USDJPY
+    - AUDUSD
+    - NZDUSD
+  timeframes:
+    - 1h
+    - 4h
+    - 1d
+
+risk_management:
+  # Risk per individual trade (% of account)
+  risk_per_trade_percent: 1.0
+  
+  # Stop trading after daily loss
+  max_daily_loss_percent: 5.0
+  
+  # Maximum allowed drawdown
+  max_drawdown_percent: 10.0
+  
+  # Stop trading after N consecutive losses
+  max_consecutive_losses: 3
+  
+  # Minimum required risk-to-reward ratio
+  min_risk_reward_ratio: 1.5
+  
+  # Account size (for position sizing)
+  account_size: 10000
+
+strategy:
+  # Number of signals needed before trade entry
+  entry_confirmation_count: 2
+  
+  # Enable/disable analysis methods
+  use_trends: true
+  use_support_resistance: true
+  use_indicators: true
+  use_price_action: true
+  
+  # Indicator parameters
+  rsi_period: 14
+  rsi_overbought: 70
+  rsi_oversold: 30
+  
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  
+  bb_period: 20
+  bb_std_dev: 2
+  
+  ma_fast: 9
+  ma_slow: 21
+
+backtesting:
+  # Starting capital for backtest
+  initial_cash: 10000.0
+  
+  # Realistic trading costs
+  commission: 0.0005  # 0.05% per trade
+  slippage: 0.0002   # 0.02% slippage
+  spread: 0.0001     # 0.01% bid-ask spread
+  
+  # Backtest period
+  start_date: "2023-01-01"
+  end_date: "2024-01-01"
+
+notifications:
+  enabled: false
+  
+  # Telegram notifications
+  telegram_enabled: false
+  telegram_token: ""
+  telegram_chat_id: ""
+  
+  # Email notifications
+  email_enabled: false
+  email_address: ""
+  
+  # What to notify
+  notify_on_trade: true
+  notify_on_error: true
+  notify_on_daily_loss: true
+
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_trades: true
+  log_signals: true
+  log_dir: "logs"
+
+broker:
+  name: "demo"  # Options: demo, oanda, alpaca, interactive_brokers, binance
+  # API credentials (use environment variables for security)
+  # Never commit real API keys to git!
+
+# Data sources
+data:
+  # Where to get market data
+  source: "yfinance"  # Options: yfinance, ccxt, broker_api
+  data_dir: "data/raw"
+  cache_enabled: true
+
+# Performance metrics thresholds
+performance:
+  min_win_rate: 0.45  # 45% win rate minimum
+  min_profit_factor: 1.5  # Profit/Loss ratio
+  max_drawdown_acceptable: 15.0  # 15% max drawdown
