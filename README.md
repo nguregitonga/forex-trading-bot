@@ -52,6 +52,14 @@ python run_backtest.py                         # EURUSD, 1h, last 12 months
 python run_backtest.py --symbol all --interval 1d --period 5y
 ```
 
+Plot the saved equity curves with `python plot_equity.py results/`.
+
+### Latest backtest
+
+GitHub Actions re-runs the backtest whenever the strategy, backtester or settings change. You can also run it by hand from **Actions → Backtest → Run workflow**. The full report is in [`reports/backtest_report.txt`](reports/backtest_report.txt).
+
+![Equity curves](reports/equity_curves.png)
+
 See [Phase 4: Strategy & Backtesting](PHASE_4_BACKTESTING.md) for the rules, the report and the cost settings.
 
 ## Tests

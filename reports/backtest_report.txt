@@ -1,4 +1,4 @@
-Backtest run 2026-11-27 19:11 UTC | interval=1d period=5y | commit b5683f4
+Backtest run 2026-11-27 19:20 UTC | interval=1d period=5y | commit 2b085b1
 
 ################ REALISTIC COSTS (commission 0.0035%, spread/slippage 0.001%) ################
 ============================================================
@@ -53,7 +53,7 @@ BACKTEST: USDJPY | strategy: confirmation
 Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
 ============================================================
 Initial cash:        $10,000.00
-Final equity:        $11,095.76
+Final equity:        $11,095.88
 Total return:        +10.96%
 Max drawdown:        9.30%
 Sharpe ratio:        0.34
