@@ -1,8 +1,261 @@
-Backtest run 2026-11-27 18:45 UTC | interval=1d period=5y | commit 6629bab
+Backtest run 2026-11-27 18:51 UTC | interval=1d period=5y | commit 19a7a69
 
 ################ REALISTIC COSTS (commission 0.0035%, spread/slippage 0.001%) ################
-[EURUSD] skipped: Invalid OHLC relationships in 35 rows (check the symbol, dates and your internet connection)
-[GBPUSD] skipped: Invalid OHLC relationships in 27 rows (check the symbol, dates and your internet connection)
-[USDJPY] skipped: Invalid OHLC relationships in 70 rows (check the symbol, dates and your internet connection)
-[AUDUSD] skipped: Invalid OHLC relationships in 51 rows (check the symbol, dates and your internet connection)
-[NZDUSD] skipped: Invalid OHLC relationships in 61 rows (check the symbol, dates and your internet connection)
+============================================================
+BACKTEST: EURUSD | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $8,978.12
+Total return:        -10.22%
+Max drawdown:        10.23%
+Sharpe ratio:        -0.65
+------------------------------------------------------------
+Trades:              36 (17 long / 19 short)
+Win rate:            36.1%
+Profit factor:       0.50
+Average win / loss:  $80.14 / $-89.72
+Expectancy / trade:  $-28.39 (-0.32R)
+Longest losing run:  5
+Trading costs paid:  $23.44
+TRADING HALTED:      Drawdown limit exceeded on 2023-08-23: 10.22% > 10.0%
+------------------------------------------------------------
+FAIL  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+============================================================
+BACKTEST: GBPUSD | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $9,624.44
+Total return:        -3.76%
+Max drawdown:        10.74%
+Sharpe ratio:        -0.09
+------------------------------------------------------------
+Trades:              94 (47 long / 47 short)
+Win rate:            46.8%
+Profit factor:       0.92
+Average win / loss:  $104.77 / $-99.71
+Expectancy / trade:  $-4.00 (-0.03R)
+Longest losing run:  4
+Trading costs paid:  $67.69
+Signals skipped:     invalid stop: 2
+TRADING HALTED:      Drawdown limit exceeded on 2026-07-28: 10.05% > 10.0%
+------------------------------------------------------------
+PASS  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+============================================================
+BACKTEST: USDJPY | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $11,095.76
+Total return:        +10.96%
+Max drawdown:        9.30%
+Sharpe ratio:        0.34
+------------------------------------------------------------
+Trades:              105 (69 long / 36 short)
+Win rate:            48.6%
+Profit factor:       1.20
+Average win / loss:  $131.31 / $-103.72
+Expectancy / trade:  $10.44 (+0.11R)
+Longest losing run:  5
+Trading costs paid:  $111.88
+Signals skipped:     invalid stop: 8
+------------------------------------------------------------
+PASS  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+============================================================
+BACKTEST: AUDUSD | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $9,284.70
+Total return:        -7.15%
+Max drawdown:        12.00%
+Sharpe ratio:        -0.20
+------------------------------------------------------------
+Trades:              52 (28 long / 24 short)
+Win rate:            40.4%
+Profit factor:       0.78
+Average win / loss:  $118.36 / $-103.25
+Expectancy / trade:  $-13.76 (-0.14R)
+Longest losing run:  3
+Trading costs paid:  $31.21
+Signals skipped:     invalid stop: 1
+TRADING HALTED:      Drawdown limit exceeded on 2024-11-07: 10.06% > 10.0%
+------------------------------------------------------------
+FAIL  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+============================================================
+BACKTEST: NZDUSD | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $9,096.46
+Total return:        -9.04%
+Max drawdown:        11.06%
+Sharpe ratio:        -0.27
+------------------------------------------------------------
+Trades:              70 (35 long / 35 short)
+Win rate:            40.0%
+Profit factor:       0.77
+Average win / loss:  $105.35 / $-91.75
+Expectancy / trade:  $-12.91 (-0.13R)
+Longest losing run:  7
+Trading costs paid:  $33.57
+Signals skipped:     invalid stop: 1
+TRADING HALTED:      Drawdown limit exceeded on 2025-11-04: 10.83% > 10.0%
+------------------------------------------------------------
+FAIL  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+
+SUMMARY
+Pair      Trades   Win %     PF  Return %  Max DD %
+EURUSD        36    36.1   0.50    -10.22     10.23
+GBPUSD        94    46.8   0.92     -3.76     10.74
+USDJPY       105    48.6   1.20     10.96      9.30
+AUDUSD        52    40.4   0.78     -7.15     12.00
+NZDUSD        70    40.0   0.77     -9.04     11.06
+
+Trade logs and equity curves saved to /tmp/r1/
+
+################ COSTS FROM config/settings.yaml ################
+============================================================
+BACKTEST: EURUSD | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $8,944.31
+Total return:        -10.56%
+Max drawdown:        10.56%
+Sharpe ratio:        -1.00
+------------------------------------------------------------
+Trades:              22 (6 long / 16 short)
+Win rate:            36.4%
+Profit factor:       0.27
+Average win / loss:  $49.24 / $-103.54
+Expectancy / trade:  $-47.99 (-0.53R)
+Longest losing run:  5
+Trading costs paid:  $223.08
+TRADING HALTED:      Drawdown limit exceeded on 2022-10-26: 10.56% > 10.0%
+------------------------------------------------------------
+FAIL  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+============================================================
+BACKTEST: GBPUSD | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $9,510.20
+Total return:        -4.90%
+Max drawdown:        10.50%
+Sharpe ratio:        -0.21
+------------------------------------------------------------
+Trades:              49 (23 long / 26 short)
+Win rate:            49.0%
+Profit factor:       0.81
+Average win / loss:  $88.60 / $-104.65
+Expectancy / trade:  $-10.00 (-0.10R)
+Longest losing run:  4
+Trading costs paid:  $407.98
+Signals skipped:     invalid stop: 2
+TRADING HALTED:      Drawdown limit exceeded on 2024-05-03: 10.03% > 10.0%
+------------------------------------------------------------
+PASS  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+============================================================
+BACKTEST: USDJPY | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $9,363.79
+Total return:        -6.36%
+Max drawdown:        10.51%
+Sharpe ratio:        -0.48
+------------------------------------------------------------
+Trades:              32 (24 long / 8 short)
+Win rate:            53.1%
+Profit factor:       0.59
+Average win / loss:  $53.57 / $-103.12
+Expectancy / trade:  $-19.88 (-0.21R)
+Longest losing run:  4
+Trading costs paid:  $234.66
+Signals skipped:     invalid stop: 1
+TRADING HALTED:      Drawdown limit exceeded on 2023-04-17: 10.17% > 10.0%
+------------------------------------------------------------
+PASS  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+============================================================
+BACKTEST: AUDUSD | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $9,155.89
+Total return:        -8.44%
+Max drawdown:        10.89%
+Sharpe ratio:        -0.27
+------------------------------------------------------------
+Trades:              48 (26 long / 22 short)
+Win rate:            41.7%
+Profit factor:       0.73
+Average win / loss:  $113.33 / $-111.09
+Expectancy / trade:  $-17.59 (-0.20R)
+Longest losing run:  3
+Trading costs paid:  $381.60
+Signals skipped:     invalid stop: 1
+TRADING HALTED:      Drawdown limit exceeded on 2024-10-04: 10.89% > 10.0%
+------------------------------------------------------------
+FAIL  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+============================================================
+BACKTEST: NZDUSD | strategy: confirmation
+Period: 2021-11-29 00:00:00 -> 2026-11-27 00:00:00
+============================================================
+Initial cash:        $10,000.00
+Final equity:        $9,091.74
+Total return:        -9.08%
+Max drawdown:        10.24%
+Sharpe ratio:        -0.35
+------------------------------------------------------------
+Trades:              35 (20 long / 15 short)
+Win rate:            40.0%
+Profit factor:       0.57
+Average win / loss:  $86.22 / $-100.73
+Expectancy / trade:  $-25.95 (-0.27R)
+Longest losing run:  7
+Trading costs paid:  $225.41
+TRADING HALTED:      Drawdown limit exceeded on 2023-08-02: 10.24% > 10.0%
+------------------------------------------------------------
+FAIL  win rate
+FAIL  profit factor
+PASS  max drawdown
+============================================================
+
+SUMMARY
+Pair      Trades   Win %     PF  Return %  Max DD %
+EURUSD        22    36.4   0.27    -10.56     10.56
+GBPUSD        49    49.0   0.81     -4.90     10.50
+USDJPY        32    53.1   0.59     -6.36     10.51
+AUDUSD        48    41.7   0.73     -8.44     10.89
+NZDUSD        35    40.0   0.57     -9.08     10.24
+
+Trade logs and equity curves saved to /tmp/r2/
