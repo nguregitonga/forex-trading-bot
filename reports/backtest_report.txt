@@ -1,0 +1,8 @@
+Backtest run 2026-11-27 18:45 UTC | interval=1d period=5y | commit 6629bab
+
+################ REALISTIC COSTS (commission 0.0035%, spread/slippage 0.001%) ################
+[EURUSD] skipped: Invalid OHLC relationships in 35 rows (check the symbol, dates and your internet connection)
+[GBPUSD] skipped: Invalid OHLC relationships in 27 rows (check the symbol, dates and your internet connection)
+[USDJPY] skipped: Invalid OHLC relationships in 70 rows (check the symbol, dates and your internet connection)
+[AUDUSD] skipped: Invalid OHLC relationships in 51 rows (check the symbol, dates and your internet connection)
+[NZDUSD] skipped: Invalid OHLC relationships in 61 rows (check the symbol, dates and your internet connection)
