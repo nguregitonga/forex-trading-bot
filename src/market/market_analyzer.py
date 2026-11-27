@@ -33,6 +33,9 @@ class MarketCondition(Enum):
 
 class MarketAnalyzer:
     """Analyze market conditions and generate signals"""
+
+    # Bars used to measure the slow moving average's direction
+    TREND_SLOPE_LOOKBACK = 5
     
     def __init__(self, min_confirmation_signals: int = 2):
         """
@@ -68,11 +71,24 @@ class MarketAnalyzer:
         if pd.isna(ma9) or pd.isna(ma21):
             return TrendDirection.NEUTRAL
         
+        # Direction of the slow MA over the last few bars. MA order alone lags and
+        # can call a falling market an uptrend, so the slope must agree.
+        lookback = min(self.TREND_SLOPE_LOOKBACK, len(data) - 1)
+        slope = 0.0
+        if lookback > 0:
+            past_ma21 = data['MA21'].iloc[-1 - lookback]
+            if not pd.isna(past_ma21):
+                slope = ma21 - past_ma21
+
         # Trend rules
-        if close > ma9 > ma21:
+        if close > ma9 > ma21 and slope >= 0:
             return TrendDirection.STRONG_UPTREND if pd.isna(ma50) or ma21 > ma50 else TrendDirection.UPTREND
-        elif close < ma9 < ma21:
+        elif close < ma9 < ma21 and slope <= 0:
             return TrendDirection.STRONG_DOWNTREND if pd.isna(ma50) or ma21 < ma50 else TrendDirection.DOWNTREND
+        elif slope > 0:
+            return TrendDirection.UPTREND
+        elif slope < 0:
+            return TrendDirection.DOWNTREND
         else:
             return TrendDirection.NEUTRAL
     
@@ -117,13 +133,14 @@ class MarketAnalyzer:
         Returns:
             Dictionary with MACD analysis
         """
-        if data.empty or 'MACD' not in data.columns:
+        if data.empty or 'MACD' not in data.columns or 'MACD_Signal' not in data.columns:
             return {'signal': 'unknown', 'momentum': 0}
         
         latest = data.iloc[-1]
         macd = latest['MACD']
         signal = latest['MACD_Signal']
-        histogram = latest['MACD_Hist']
+        # Histogram is MACD minus signal; derive it if the column is missing
+        histogram = latest['MACD_Hist'] if 'MACD_Hist' in data.columns else macd - signal
         
         if pd.isna(macd) or pd.isna(signal):
             return {'signal': 'unknown', 'momentum': 0}
