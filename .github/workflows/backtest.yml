@@ -1,0 +1,63 @@
+name: Backtest
+
+# Run from the Actions tab ("Run workflow"), or automatically when this file,
+# the strategy, the backtester or settings.yaml change.
+on:
+  workflow_dispatch:
+    inputs:
+      interval:
+        description: "Candle size: 1h, 4h or 1d"
+        default: "1d"
+      period:
+        description: "History: 1y, 2y, 5y (1h/4h max ~2y)"
+        default: "5y"
+  push:
+    paths:
+      - ".github/workflows/backtest.yml"
+      - "src/strategy/**"
+      - "src/backtest/**"
+      - "src/market/**"
+      - "config/settings.yaml"
+
+permissions:
+  contents: write
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest -q
+      - name: Backtest (settings.yaml costs and realistic ECN costs)
+        env:
+          FOREX_BOT_LOG_LEVEL: WARNING
+          INTERVAL: ${{ github.event.inputs.interval || '1d' }}
+          PERIOD: ${{ github.event.inputs.period || '5y' }}
+        run: |
+          mkdir -p reports
+          sed -e 's/commission: [0-9.]*/commission: 0.000035/' \
+              -e 's/slippage: [0-9.]*/slippage: 0.00001/' \
+              -e 's/spread: [0-9.]*/spread: 0.00001/' config/settings.yaml > /tmp/realistic.yaml
+          {
+            echo "Backtest run $(date -u '+%Y-%m-%d %H:%M UTC') | interval=$INTERVAL period=$PERIOD | commit ${GITHUB_SHA::7}"
+            echo
+            echo "################ REALISTIC COSTS (commission 0.0035%, spread/slippage 0.001%) ################"
+            python run_backtest.py --symbol all --interval "$INTERVAL" --period "$PERIOD" --config /tmp/realistic.yaml --out /tmp/r1 || true
+            echo
+            echo "################ COSTS FROM config/settings.yaml ################"
+            python run_backtest.py --symbol all --interval "$INTERVAL" --period "$PERIOD" --out /tmp/r2 || true
+          } 2>&1 | tee reports/backtest_report.txt
+          cp /tmp/r1/*_trades.csv reports/ 2>/dev/null || true
+      - name: Save report to the repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          git commit -m "Backtest report [skip ci]" || echo "No changes"
+          git push

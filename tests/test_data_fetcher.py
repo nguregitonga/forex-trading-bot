@@ -141,5 +141,22 @@ class TestDataFetcher:
         assert "passed" in message.lower()
 
 
+    def test_clean_data_repairs_bad_high_low(self):
+        """Yahoo-style glitch: High below Close, Low above Open"""
+        fetcher = DataFetcher()
+        data = pd.DataFrame({
+            'Open': [100.0, 101.0, 0.0],
+            'High': [100.5, 101.2, 1.0],   # row 0: High < Close
+            'Low': [99.0, 101.5, 1.0],     # row 1: Low > Open
+            'Close': [100.8, 100.9, 1.0],  # row 2: zero price -> dropped
+        })
+        cleaned = fetcher.clean_data(data)
+        assert len(cleaned) == 2
+        assert cleaned['High'].iloc[0] == 100.8
+        assert cleaned['Low'].iloc[1] == 100.9
+        is_valid, _ = fetcher.validate_data(cleaned)
+        assert is_valid
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
