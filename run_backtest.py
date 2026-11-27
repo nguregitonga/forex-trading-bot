@@ -61,7 +61,7 @@ def main() -> int:
     summary = []
 
     for symbol in symbols:
-        data = load_data(args, symbol, fetcher)
+        data = fetcher.clean_data(load_data(args, symbol, fetcher))
         valid, message = fetcher.validate_data(data)
         if not valid:
             print(f"[{symbol}] skipped: {message} (check the symbol, dates and your internet connection)")

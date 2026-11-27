@@ -16,6 +16,7 @@ on:
       - ".github/workflows/backtest.yml"
       - "src/strategy/**"
       - "src/backtest/**"
+      - "src/market/**"
       - "config/settings.yaml"
 
 permissions:
@@ -47,10 +48,10 @@ jobs:
             echo "Backtest run $(date -u '+%Y-%m-%d %H:%M UTC') | interval=$INTERVAL period=$PERIOD | commit ${GITHUB_SHA::7}"
             echo
             echo "################ REALISTIC COSTS (commission 0.0035%, spread/slippage 0.001%) ################"
-            python run_backtest.py --symbol all --interval "$INTERVAL" --period "$PERIOD" --config /tmp/realistic.yaml --out /tmp/r1
+            python run_backtest.py --symbol all --interval "$INTERVAL" --period "$PERIOD" --config /tmp/realistic.yaml --out /tmp/r1 || true
             echo
             echo "################ COSTS FROM config/settings.yaml ################"
-            python run_backtest.py --symbol all --interval "$INTERVAL" --period "$PERIOD" --out /tmp/r2
+            python run_backtest.py --symbol all --interval "$INTERVAL" --period "$PERIOD" --out /tmp/r2 || true
           } 2>&1 | tee reports/backtest_report.txt
           cp /tmp/r1/*_trades.csv reports/ 2>/dev/null || true
       - name: Save report to the repository

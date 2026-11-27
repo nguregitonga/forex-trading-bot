@@ -81,6 +81,7 @@ class DataFetcher:
         keep = [c for c in ["Open", "High", "Low", "Close", "Volume"] if c in data.columns]
         data = data[keep].dropna(subset=REQUIRED_COLUMNS)
 
+        data = self.clean_data(data)
         if resample_to:
             data = self.resample_data(data, resample_to)
 
@@ -121,6 +122,31 @@ class DataFetcher:
         if "Volume" in data.columns:
             agg["Volume"] = "sum"
         return data.resample(timeframe).agg(agg).dropna(subset=["Open", "Close"])
+
+    # --------------------------------------------------------------- cleaning
+    @staticmethod
+    def clean_data(data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Repair common data-feed glitches so real data passes validation.
+
+        Yahoo Finance Forex candles sometimes have a High below the Open/Close
+        or a Low above them. High/Low are widened to contain Open and Close;
+        rows with missing or non-positive prices are dropped.
+        """
+        if data is None or data.empty or any(c not in data.columns for c in REQUIRED_COLUMNS):
+            return data
+        cleaned = data.dropna(subset=REQUIRED_COLUMNS).copy()
+        cleaned = cleaned[(cleaned[REQUIRED_COLUMNS] > 0).all(axis=1)]
+        body_high = cleaned[["Open", "Close"]].max(axis=1)
+        body_low = cleaned[["Open", "Close"]].min(axis=1)
+        new_high = cleaned["High"].combine(body_high, max)
+        new_low = cleaned["Low"].combine(body_low, min)
+        repaired = int(((new_high != cleaned["High"]) | (new_low != cleaned["Low"])).sum())
+        cleaned["High"], cleaned["Low"] = new_high, new_low
+        dropped = len(data) - len(cleaned)
+        if repaired or dropped:
+            logger.info(f"Cleaned data: repaired {repaired} candles, dropped {dropped} rows")
+        return cleaned
 
     # ------------------------------------------------------------- validation
     @staticmethod
