@@ -67,7 +67,8 @@ class PositionSizer:
             Dictionary with lot_size, risk_amount, pips
         """
         # Calculate pips (distance from entry to stop loss)
-        pips = abs(entry_price - stop_loss_price) / pip_value
+        # Round away floating-point noise (1.0950 - 1.0940 = 9.9999999 pips)
+        pips = round(abs(entry_price - stop_loss_price) / pip_value, 4)
         
         if pips == 0:
             logger.error("Stop loss distance is zero - invalid calculation")
