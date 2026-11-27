@@ -53,7 +53,8 @@ class PositionSizer:
         self,
         entry_price: float,
         stop_loss_price: float,
-        pip_value: float = 0.0001
+        pip_value: float = 0.0001,
+        pip_value_per_lot: float = 10.0
     ) -> Dict[str, float]:
         """
         Calculate position size based on entry and stop loss
@@ -62,6 +63,8 @@ class PositionSizer:
             entry_price: Entry price
             stop_loss_price: Stop loss price
             pip_value: Pip value for the currency pair (default 0.0001 for most pairs)
+            pip_value_per_lot: Account-currency value of 1 pip on 1 standard lot
+                (10.0 for XXX/USD pairs in a USD account; differs for USD/JPY etc.)
         
         Returns:
             Dictionary with lot_size, risk_amount, pips
@@ -89,7 +92,7 @@ class PositionSizer:
         
         # Formula: Position Size = Risk Amount / (Pips * Pip Value in Account Currency)
         # For USD account with EUR/USD: pip value per lot = 10
-        lot_size = risk_amount / (pips * 10)
+        lot_size = risk_amount / (pips * pip_value_per_lot)
         
         # Enforce position size limits
         if lot_size < self.min_position_size:

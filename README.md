@@ -2,7 +2,7 @@
 
 A disciplined, risk-managed Forex trading bot with market analysis and risk management, built in phases toward backtesting and automated trading.
 
-> **Status:** Phases 1–3 done (data, market analysis, risk management). No strategy, backtester or broker execution yet. The bot does not place trades. `config/settings.yaml` defaults to paper mode with trading disabled.
+> **Status:** Phases 1–4 done (data, market analysis, risk management, strategy and backtesting). No broker execution yet. The bot does not place trades. `config/settings.yaml` defaults to paper mode with trading disabled.
 
 ## Features
 
@@ -13,6 +13,11 @@ A disciplined, risk-managed Forex trading bot with market analysis and risk mana
   - position sizing by % risk, with take-profit, trailing and break-even stops
   - daily loss, drawdown and consecutive-loss limits
   - win rate, profit factor and expectancy
+- **Strategy** (`src/strategy/`): a multi-signal confirmation strategy with a trend filter, ATR stop-loss and risk:reward take-profit. Subclass `Strategy` to add your own.
+- **Backtesting** (`src/backtest/`, `run_backtest.py`): bar-by-bar simulation with no look-ahead, plus:
+  - spread, slippage and commission
+  - your risk limits, applied on historical dates
+  - a full report and trade log CSV
 
 ## Setup
 
@@ -40,13 +45,22 @@ sizer = PositionSizer(account_size=10000, risk_percent=1.0)
 print(sizer.calculate_position_size(entry_price=1.0850, stop_loss_price=1.0830))
 ```
 
+## Backtest
+
+```bash
+python run_backtest.py                         # EURUSD, 1h, last 12 months
+python run_backtest.py --symbol all --interval 1d --period 5y
+```
+
+See [Phase 4: Strategy & Backtesting](PHASE_4_BACKTESTING.md) for the rules, the report and the cost settings.
+
 ## Tests
 
 ```bash
 pytest
 ```
 
-Data-download tests pass offline, because a failed download returns an empty DataFrame. Logs go to `logs/forex_bot.log`. Set `FOREX_BOT_LOG_LEVEL=DEBUG` for more detail.
+There are 105 tests. Data-download tests pass offline, because a failed download returns an empty DataFrame. Logs go to `logs/forex_bot.log`. Set `FOREX_BOT_LOG_LEVEL=DEBUG` for more detail.
 
 ## Project structure
 
@@ -55,16 +69,19 @@ config/settings.yaml      trading, risk, strategy and backtest settings
 src/logger.py             shared logging (console + rotating file)
 src/market/               data fetching, indicators, market analysis
 src/risk/                 position sizing, risk limits, drawdown monitor
+src/strategy/             strategy interface and confirmation strategy
+src/backtest/             backtest engine, pip maths, performance metrics
+run_backtest.py           command-line backtests
 tests/                    unit tests
 ```
 
-Detailed guides: [Phase 2 quick start](QUICK_START_PHASE_2.md), [Phase 2 completion](PHASE_2_COMPLETION.md), [Phase 3 risk management](PHASE_3_RISK_MANAGEMENT.md), [Phase 3 checklist](PHASE_3_CHECKLIST.md).
+Detailed guides: [Phase 2 quick start](QUICK_START_PHASE_2.md), [Phase 2 completion](PHASE_2_COMPLETION.md), [Phase 3 risk management](PHASE_3_RISK_MANAGEMENT.md), [Phase 3 checklist](PHASE_3_CHECKLIST.md), [Phase 4 backtesting](PHASE_4_BACKTESTING.md).
 
 ## Roadmap
 
 - [x] Phase 1–2: data and market analysis
 - [x] Phase 3: risk management
-- [ ] Phase 4: strategy and backtesting engine (with trading costs from `settings.yaml`)
+- [x] Phase 4: strategy and backtesting engine
 - [ ] Phase 5: paper trading against a demo broker account
 - [ ] Phase 6: notifications (Telegram/email)
 

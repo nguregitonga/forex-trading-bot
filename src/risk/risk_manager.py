@@ -59,15 +59,19 @@ class RiskManager:
             f"Max Drawdown={max_drawdown_percent}%"
         )
     
-    def can_trade(self) -> Tuple[bool, str]:
+    def can_trade(self, now: datetime = None) -> Tuple[bool, str]:
         """
         Check if trading is allowed based on risk limits
+        
+        Args:
+            now: Time to check against (defaults to the current time; the
+                backtester passes each bar's timestamp)
         
         Returns:
             Tuple of (can_trade, reason)
         """
         # Check daily loss limit
-        today = datetime.now().strftime('%Y-%m-%d')
+        today = (now or datetime.now()).strftime('%Y-%m-%d')
         daily_loss = self.daily_pnl.get(today, 0)
         max_daily_loss = self.account_size * (self.max_daily_loss_percent / 100)
         
@@ -96,7 +100,8 @@ class RiskManager:
         exit_price: float,
         lot_size: float,
         pnl: float,
-        is_winning: bool
+        is_winning: bool,
+        timestamp: datetime = None
     ):
         """
         Record a completed trade
@@ -108,9 +113,12 @@ class RiskManager:
             lot_size: Position size
             pnl: Profit/Loss
             is_winning: True if trade was profitable
+            timestamp: When the trade closed (defaults to now; the backtester
+                passes the bar time so daily limits use historical dates)
         """
+        timestamp = timestamp or datetime.now()
         trade = {
-            'timestamp': datetime.now(),
+            'timestamp': timestamp,
             'symbol': symbol,
             'entry_price': entry_price,
             'exit_price': exit_price,
@@ -129,7 +137,7 @@ class RiskManager:
             self.peak_balance = self.current_balance
         
         # Track daily PnL
-        today = datetime.now().strftime('%Y-%m-%d')
+        today = timestamp.strftime('%Y-%m-%d')
         self.daily_pnl[today] = self.daily_pnl.get(today, 0) + pnl
         
         # Update consecutive losses
@@ -139,12 +147,16 @@ class RiskManager:
             self.consecutive_losses += 1
         
         # Add to equity history
-        self.equity_history.append((datetime.now(), self.current_balance))
+        self.equity_history.append((timestamp, self.current_balance))
         
         logger.info(
             f"Trade recorded: {symbol} {'+' if is_winning else '-'}${abs(pnl):.2f} "
             f"| Balance: ${self.current_balance:.2f} | Consecutive Losses: {self.consecutive_losses}"
         )
+    
+    def reset_consecutive_losses(self):
+        """Clear the losing streak (e.g. after a cooling-off period)."""
+        self.consecutive_losses = 0
     
     def open_position(self, symbol: str, lot_size: float, pnl: float = 0.0):
         """
