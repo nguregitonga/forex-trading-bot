@@ -103,4 +103,4 @@ entry_time,exit_time,direction,entry_price,exit_price,stop_loss,take_profit,lots
 2026-09-09,2026-09-17,short,153.421695,156.261304,156.25896,150.24905,0.06,-109.45,-284.0,-1.0,0.51,stop_loss,11317.21,Strong downtrend; MACD bearish
 2026-09-18,2026-09-24,short,156.156654,158.832103,158.82972,151.790439,0.06,-101.49,-267.5,-1.01,0.51,stop_loss,11215.73,Downtrend; MACD bearish
 2026-10-05,2026-11-12,short,157.726638,159.956972,159.954573,154.885645,0.07,-98.09,-223.0,-1.01,0.59,stop_loss,11117.63,Downtrend; RSI overbought
-2026-11-13,2026-11-27,long,159.872393,159.53461,158.253282,161.955061,0.1,-21.87,-33.8,-0.21,0.85,end_of_data,11095.76,Strong uptrend; MACD bullish
+2026-11-13,2026-11-27,long,159.872393,159.5246,158.253282,161.955061,0.1,-22.5,-34.8,-0.22,0.85,end_of_data,11095.13,Strong uptrend; MACD bullish
